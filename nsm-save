@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import liblo, sys
+try:
+    target = liblo.Address(18440)
+except liblo.AddressError, err:
+    print str(err)
+    sys.exit()
+
+# send message "/foo/message1" with int, float and string arguments
+liblo.send(target, "/nsm/server/save")
+
+
