@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
-import liblo, sys
-try:
-    target = liblo.Address(18440)
-except liblo.AddressError, err:
-    print str(err)
+import liblo, sys, os, subprocess
+
+NSM_URL = os.getenv('NSM_URL')
+
+try: subprocess.check_output(['pgrep','nsmd'])
+except subprocess.CalledProcessError: 
+    print("[nsm-save] nsmd is not running")
     sys.exit()
 
 # send message "/foo/message1" with int, float and string arguments
 liblo.send(target, "/nsm/server/save")
-
-
+print("[nsm-save] sent save signal")

@@ -1,3 +1,4 @@
 #!/bin/bash
 
-unset NSM_URL && "$1" & 
+unset NSM_URL
+exec "$1"

@@ -1,10 +1,17 @@
 #!/bin/bash
 
+# start-nsm restart is basically the same as calling nsm-create-default but it gets logged in the same place as start-nsm
+
 LOG=/tmp/nsmd.log
 
-if ! $(pgrep nsmd > /dev/null); then
+if ! $(pgrep nsmd > /dev/null) || [ "$1" = "restart" ]; then
     echo "-----------------------------------------------------" >> $LOG
-    echo [start-nsm] beginning nsmd at $(date +"%H:%M:%S on %m/%d/%y") >> $LOG
+    if [ "$1" = "restart" ]; then 
+	pkill nsmd
+	echo '[start-nsm] restarting nsmd' >> $LOG
+    else
+	echo [start-nsm] beginning nsmd at $(date +"%H:%M:%S on %m/%d/%y") >> $LOG
+    fi
     if ! $(echo ${NSM_PORT:?} > /dev/null); then
 	echo '[start-nsm] NSM_PORT is not set' >> $LOG
     fi
@@ -12,7 +19,7 @@ if ! $(pgrep nsmd > /dev/null); then
 	echo '[start-nsm] NSM_DIR is not set' >> $LOG
     fi
     nsmd --osc-port="$NSM_PORT" --session-root="$NSM_DIR" >> $LOG 2>&1 &
-    /home/duke/bin/nsm-create-default >> $LOG
+    nsm-create-default >> $LOG
 else 
     >&2 echo '[start-nsm] nsmd is already running'
     echo '[start-nsm] nsmd is already running' >> $LOG

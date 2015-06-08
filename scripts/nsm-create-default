@@ -6,18 +6,22 @@ def callback(path, args):
     pass
 
 def clear_empty_sessions():
+    # maybe clear sessions with blank session.nsm files too
     server = liblo.Server()
     server.add_method(None, None, callback)
     liblo.send(NSM_URL, "/nsm/server/close")
     server.recv()
     root = os.listdir(NSM_DIR)
-    for item in root:
-        item_path = os.path.join(NSM_DIR,item)
-        if os.path.isdir(item_path):
-            contents = [i for i in os.listdir(item_path) if i[0] != '.']
+    for nsm_session in root:
+        nsm_session_path = os.path.join(NSM_DIR,nsm_session)
+        if os.path.isdir(nsm_session_path):
+            contents = [c for c in os.listdir(nsm_session_path) if c[0] != '.']
             if len(contents) == 0 \
                     or (len(contents) < 2 and contents[0]=='session.nsm'):
-                shutil.rmtree(item_path)
+                    #    or (os.stat(session_file).st_size==0 
+                    #        for session_file in contents 
+                    #        if session_file=='session.nsm'):
+                shutil.rmtree(nsm_session_path)
 
 def create_default_session():
     date = datetime.datetime.now().strftime("%m.%d.%y")
