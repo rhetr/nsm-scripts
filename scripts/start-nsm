@@ -19,7 +19,7 @@ if ! $(pgrep nsmd > /dev/null) || [ "$1" = "restart" ]; then
 	echo '[start-nsm] NSM_DIR is not set' >> $LOG
     fi
     nsmd --osc-port="$NSM_PORT" --session-root="$NSM_DIR" >> $LOG 2>&1 &
-    nsm-create-default >> $LOG
+    [ "$2" != "nd" ] && nsm-create-default >> $LOG
 else 
     >&2 echo '[start-nsm] nsmd is already running'
     echo '[start-nsm] nsmd is already running' >> $LOG

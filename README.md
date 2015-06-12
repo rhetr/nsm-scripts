@@ -1,7 +1,9 @@
 nsm-scripts
 ===========
 
-various scripts to supplement NSM usage.
+various scripts to supplement non session manager (NSM) usage.
+
+requirements: nsmd, pyliblo
 
 **INSTALL.sh** - exports NSM startup settings to `$HOME/.profile` and creates links for the scripts in a specified bin path.
 
@@ -12,3 +14,5 @@ various scripts to supplement NSM usage.
 **nsm-save** - sends a save signal to all apps in the session. Make a keybinding for this.
 
 **nosm** - unsets `$NSM_URL` and runs a specified application.
+
+**seq24-nsm** - fakes nsm support in seq24. use with nsm-proxy and SIGUSR1.
