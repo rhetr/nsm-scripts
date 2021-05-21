@@ -33,18 +33,18 @@ def create_default_session():
         session = session[:-2] + "{:02}".format(num)
 
     liblo.send(NSM_URL, liblo.Message("/nsm/server/new", session))
-    print "[nsm-create-default] created session", session
+    print ("[nsm-create-default] created session", session)
 
 NSM_URL = os.getenv('NSM_URL')
 NSM_DIR = os.getenv('NSM_DIR')
 
 if not NSM_URL:
-    print "[nsm-create-default] NSM_URL not found. exiting"
+    print ("[nsm-create-default] NSM_URL not found. exiting")
     sys.exit()
 
 try: subprocess.check_output(['pgrep','nsmd'])
 except subprocess.CalledProcessError: 
-    print "[nsm-create-default] nsmd not running. exiting"
+    print ("[nsm-create-default] nsmd not running. exiting")
     sys.exit()
 
 clear_empty_sessions()
